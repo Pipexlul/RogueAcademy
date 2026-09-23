@@ -94,6 +94,7 @@ source_group("rd-common" FILES ${MPUIRendererFiles})
 set(MPUIFiles ${MPUIFiles} ${MPUIRendererFiles})
 
 add_library(${MPUI} SHARED ${MPUIFiles})
+deploy_target(${MPUI} "${DeployModDir}")
 
 if(NOT MSVC)
 	# remove "lib" prefix for .so/.dylib files

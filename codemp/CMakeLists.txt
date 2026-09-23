@@ -586,6 +586,7 @@ if(BuildMPEngine)
 			add_executable(${MPEngine} ${MPEngineFiles})
 		endif(MakeApplicationBundles)
 	endif(WIN32)
+	deploy_target(${MPEngine} "")
 
 	if(MakeApplicationBundles)
 		install(CODE "
@@ -697,6 +698,7 @@ if(BuildMPDed)
 	endif(WIN32)
 
 	add_executable(${MPDed} ${MPDedFiles})
+	deploy_target(${MPDed} "")
 	install(TARGETS ${MPDed}
 		RUNTIME
 		DESTINATION ${JKAInstallDir}

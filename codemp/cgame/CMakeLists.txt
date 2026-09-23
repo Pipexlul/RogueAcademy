@@ -141,6 +141,7 @@ source_group("ghoul2" FILES ${MPCGameG2Files})
 set(MPCGameFiles ${MPCGameFiles} ${MPCGameG2Files})
 
 add_library(${MPCGame} SHARED ${MPCGameFiles})
+deploy_target(${MPCGame} "${DeployModDir}")
 
 if(NOT MSVC)
 	# remove "lib" prefix for .so/.dylib files

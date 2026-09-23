@@ -55,6 +55,23 @@ option(BuildTests "Whether to build automatic unit tests (requires Boost)" OFF)
 option(UseAddressSanitizer "Whether to enable runtime address sanitizer" OFF)
 option(UseUndefinedSanitizer "Whether to enable runtime Undefined Behavior sanitizer" OFF)
 
+set(DeployDir "" CACHE PATH "If set, copy built binaries here after every build")
+set(DeployModDir "RogueAcademy" CACHE STRING "Subfolder under DeployDir")
+
+function(deploy_target target subdir)
+	if(DeployDir)
+		if(subdir)
+			set(dest "${DeployDir}/${subdir}")
+		else()
+			set(dest "${DeployDir}")
+		endif()
+		add_custom_command(TARGET ${target} POST_BUILD
+			COMMAND ${CMAKE_COMMAND} -E make_directory "${dest}"
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different "$<TARGET_FILE:${target}>" "${dest}/"
+			COMMENT "Deploying ${target} -> ${dest}")
+	endif()
+endfunction()
+
 include(CMakeDependentOption)
 cmake_dependent_option(BuildSymbolServer "Build WIP Windows Symbol Server (experimental and unused)" OFF "NOT WIN32 OR NOT MSVC" OFF)
 
@@ -418,6 +435,13 @@ if(BuildJK2SPGame)
 endif()
 
 add_subdirectory(${MPDir})
+
+add_custom_target(RogueAcademy)
+foreach(target ${MPEngine} ${MPDed} ${MPVanillaRenderer} ${MPGame} ${MPCGame} ${MPUI})
+	if(TARGET ${target})
+		add_dependencies(RogueAcademy ${target})
+	endif()
+endforeach()
 
 if(BuildSymbolServer)
 	add_subdirectory("tools/WinSymbol")

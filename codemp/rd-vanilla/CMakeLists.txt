@@ -133,6 +133,7 @@ set(MPVanillaRendererLibraries ${MPVanillaRendererLibraries} ${OPENGL_LIBRARIES}
 
 set(MPVanillaRendererIncludeDirectories ${MPVanillaRendererIncludeDirectories} ${OpenJKLibDir})
 add_library(${MPVanillaRenderer} SHARED ${MPVanillaRendererFiles})
+deploy_target(${MPVanillaRenderer} "")
 
 if(NOT MSVC)
 	# remove "lib" prefix for .so/.dylib files

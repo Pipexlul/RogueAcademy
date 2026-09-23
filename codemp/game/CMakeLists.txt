@@ -209,6 +209,7 @@ source_group("ui" FILES ${MPGameUiFiles})
 set(MPGameFiles ${MPGameFiles} ${MPGameUiFiles})
 
 add_library(${MPGame} SHARED ${MPGameFiles})
+deploy_target(${MPGame} "${DeployModDir}")
 
 if(NOT MSVC)
 	# remove "lib" prefix for .so/.dylib files
